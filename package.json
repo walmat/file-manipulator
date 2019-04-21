@@ -1,21 +1,26 @@
 {
-  "name": "cra-electron",
+  "name": "file-manipulator",
   "version": "0.0.1",
-  "description": "Create-react-app electron starter",
+  "description": "Allows loading and deleting lines in files that contain a word",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fkhadra/cra-electron.git"
+    "url": "git+https://github.com/walmat/file-manipulator"
   },
-  "author": "Fadi Khadra  <fdkhadra@gmail.com> (https://fkhadra.github.io)",
+  "author": "Matthew Wall  <matthew.wallt@gmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/fkhadra/cra-electron/issues"
-  },
-  "main": "public/electron.js",
+  "homepage": "./",
+  "main": "lib/electron.js",
   "dependencies": {
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-scripts": "1.1.5"
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.0",
+    "node-sass": "^4.11.0",
+    "popper.js": "^1.15.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "2.1.8",
+    "sanitize-html": "^1.20.0",
+    "typescript": "^3.4.4",
+    "underscore": "^1.9.1"
   },
   "scripts": {
     "start:react": "cross-env BROWSER=none react-scripts start",
@@ -23,26 +28,25 @@
     "start": "concurrently -k -p [{name}] -n '🦄 React,⭐️ Electron' -c 'yellow,magenta' 'npm run start:react' 'wait-on http://localhost:3000/ && npm run start:electron'",
     "prettier": "prettier --single-quote --write '*/src/**/*.{js}'",
     "build:react": "react-scripts build",
-    "build:electron": "cross-env NODE_ENV=production electron-builder",
+    "build:electron": "cross-env NODE_ENV=production electron-builder -mwl",
     "build": "npm run build:react && npm run build:electron",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1",
+    "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
-    "electron": "^3.0.0-beta.7",
-    "electron-builder": "^20.28.3",
-    "electron-debug": "^2.0.0",
+    "electron": "^4.1.4",
+    "electron-builder": "^20.39.0",
+    "electron-debug": "^2.2.0",
     "electron-devtools-installer": "^2.2.4",
-    "prettier": "^1.14.2",
-    "wait-on": "^2.1.0"
+    "prettier": "^1.17.0",
+    "wait-on": "^3.2.0"
   },
-  "homepage": "./",
-  "build": {
-    "appId": "com.electron.foobar",
-    "mac": {
-      "category": "public.app-category.developer-tools"
-    }
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

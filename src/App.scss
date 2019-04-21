@@ -1,0 +1,46 @@
+.App {
+  @keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  text-align: center;
+
+  &--header {
+    background-color: #3b28cc;
+    height: 75px;
+    padding: 20px;
+    color: whitesmoke;
+  }
+
+  &--text-area {
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+    overflow: scroll;
+    text-align: left;
+    outline: none;
+  }
+
+  &--matched {
+    color: #dc3545;
+  }
+
+  &--button {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: whitesmoke;
+    border: 1px solid #3b28cc;
+  }
+  
+  &--input {
+    border-radius: 3px;
+    border: 1px solid #3b28cc;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 34px;
+    outline: none;
+  }
+}
