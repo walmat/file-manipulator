@@ -12,6 +12,37 @@
     color: whitesmoke;
   }
 
+  .form-check-1 {
+    position: absolute;
+    margin-top: -13px;
+    display: block;
+    padding-left: 1.25rem;
+  }
+
+  .form-check-2 {
+    position: absolute;
+    left: 155px;
+    margin-top: -13px;
+    display: block;
+    padding-left: 1.25rem;
+  }
+
+  .form-check-input {
+    margin-top: 4px;
+  }
+
+  &--sub-header {
+    background-color: burlywood;
+    height: 25px;
+    padding: 15px;
+  }
+
+  &--text {
+    font-size: 0.85em;
+    font-weight: 500;
+    line-height: 1em;
+  }
+
   &--text-area {
     height: 100%;
     width: 100%;

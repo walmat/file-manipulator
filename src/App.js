@@ -18,6 +18,8 @@ class App extends Component {
       word: '',
       lines: [],
       matchedLines: [],
+      insensitve: true,
+      wholeWord: false,
       editing: false,
     }
 
@@ -32,6 +34,7 @@ class App extends Component {
     this.import = this.import.bind(this);
     this.export = this.export.bind(this);
     this.match = this.match.bind(this);
+    this.clear = this.clear.bind(this);
     this.delete = this.delete.bind(this);
   }
 
@@ -150,18 +153,40 @@ class App extends Component {
   }
 
   async match() {
-    let { word, lines, matchedLines } = this.state;
+    let { word, lines, matchedLines, insensitve, wholeWord } = this.state;
     if (!word) {
       this.setState({ matchedLines: [], editing: false });
       return;
     }
-    this.setState({ matchedLines: [] });
+    await this.setState({ matchedLines: [], editing: false });
     await forEach(lines, (l, idx) => {
-      if (l.toUpperCase().indexOf(word.toUpperCase()) > -1) {
-        matchedLines.push(idx);
+      if (insensitve) {
+        if (wholeWord) {
+          if (l.toUpperCase() === word.toUpperCase()) {
+            matchedLines.push(idx);
+          }
+        } else {
+          if (l.toUpperCase().indexOf(word.toUpperCase()) > -1) {
+            matchedLines.push(idx);
+          }
+        }
+      } else {
+        if (wholeWord) {
+          if (l === word) {
+            matchedLines.push(idx);
+          }
+        } else {
+          if (l.indexOf(word) > -1) {
+            matchedLines.push(idx);
+          }
+        }
       }
     });
-    this.setState({ editing: false, matchedLines });
+    await this.setState({ editing: false, matchedLines });
+  }
+
+  async clear() {
+    this.setState({ matchedLines: [], word: '' });
   }
 
   async delete() {
@@ -176,11 +201,20 @@ class App extends Component {
   }
 
   async onChangeHandler(e, field) {
-    e.preventDefault();
+    const { insensitve, wholeWord } = this.state;
 
     switch(field) {
       case 'word': {
+        e.preventDefault();
         await this.setState({ word: e.target.value });
+        break;
+      }
+      case 'insensitive': {
+        await this.setState({ insensitve: !insensitve });
+        break;
+      }
+      case 'whole-word': {
+        await this.setState({ wholeWord: !wholeWord });
         break;
       }
       default: break;
@@ -218,12 +252,12 @@ class App extends Component {
       onBlur: this.blur,
       onPaste: this.paste,
       dangerouslySetInnerHTML: { __html: this.renderLines() },
-      contentEditable: true,
+      contentEditable: false,
     });
   }
 
   render() {
-    const { word } = this.state;
+    const { word, insensitve, wholeWord } = this.state;
     return (
       <div className="App">
         <header className="App--header">
@@ -244,6 +278,7 @@ class App extends Component {
           <input
             onChange={e => this.onChangeHandler(e, 'word')}
             className="App--input"
+            placeholder="filter word"
             value={word}
           />
           <button
@@ -251,7 +286,14 @@ class App extends Component {
             className="btn btn-warning App--button"
             onClick={this.match}
           >
-            Check
+            Match
+          </button>
+          <button
+            type="button"
+            className="btn btn-info App--button"
+            onClick={this.clear}
+          >
+            Clear
           </button>
           <button
             type="button"
@@ -261,6 +303,32 @@ class App extends Component {
             Remove
           </button>
         </header>
+        <div className="App--sub-header">
+          <div class="form-check-1">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              onChange={e => this.onChangeHandler(e, 'insensitive')}
+              value={insensitve}
+              id="case-sensitive"
+            />
+            <label class="form-check-label App--text" for="case-sensitive">
+              Case Sensitive?
+            </label>
+          </div>
+          <div class="form-check-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              onChange={e => this.onChangeHandler(e, 'whole-word')}
+              value={wholeWord}
+              id="whole-word"
+            />
+            <label class="form-check-label App--text" for="whole-word">
+              Whole Word?
+            </label>
+          </div>
+        </div>
         {this.renderInputDiv()}
       </div>
     );
