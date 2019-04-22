@@ -1,6 +1,6 @@
 {
   "name": "file-manipulator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Allows loading and deleting lines in files that contain a word",
   "repository": {
     "type": "git",
