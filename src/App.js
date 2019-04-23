@@ -112,6 +112,7 @@ class App extends Component {
           lines: contents.split(EOL),
           file: file[0],
           matchedLines: [],
+          removedLines: [],
           counter: 0,
           editing: false,
         });
@@ -135,6 +136,7 @@ class App extends Component {
           counter: 0,
           lines: [],
           matchedLines: [],
+          removedLines: [],
           editing: false,
         });
       }
@@ -149,7 +151,7 @@ class App extends Component {
       if (window.Bridge) {
         await window.Bridge.writeFile(`${name}-${counter}.${ext}`, lines.join(EOL));
         await window.Bridge.writeFile(`${name}-${counter}-removed.${ext}`, removedLines.join(EOL));
-        this.setState({ counter: counter += 1 });
+        this.setState({ counter: counter += 1, removedLines: [] });
       }
     }
   }
@@ -188,15 +190,16 @@ class App extends Component {
   }
 
   async clear() {
-    this.setState({ matchedLines: [], word: '' });
+    this.setState({ matchedLines: [], removedLines: [], word: '' });
   }
 
   async delete() {
     let { matchedLines, removedLines, lines } = this.state;
     lines = await filter(lines, (l, idx) => {
       if (!matchedLines.includes(idx)) {
-        removedLines.push(l);
         return l;
+      } else {
+        removedLines.push(l);
       }
     });
     this.setState({ lines, matchedLines: [] });
