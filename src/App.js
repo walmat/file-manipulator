@@ -18,6 +18,7 @@ class App extends Component {
       word: '',
       lines: [],
       matchedLines: [],
+      removedLines: [],
       insensitve: true,
       wholeWord: false,
       editing: false,
@@ -142,11 +143,12 @@ class App extends Component {
 
   async save() {
     let { counter } = this.state;
-    const { lines, file } = this.state;
+    const { lines, removedLines, file } = this.state;
     if (file) {
       const [name, ext] = file.split('.');
       if (window.Bridge) {
         await window.Bridge.writeFile(`${name}-${counter}.${ext}`, lines.join(EOL));
+        await window.Bridge.writeFile(`${name}-${counter}-removed.${ext}`, removedLines.join(EOL));
         this.setState({ counter: counter += 1 });
       }
     }
@@ -190,9 +192,10 @@ class App extends Component {
   }
 
   async delete() {
-    let { matchedLines, lines } = this.state;
+    let { matchedLines, removedLines, lines } = this.state;
     lines = await filter(lines, (l, idx) => {
       if (!matchedLines.includes(idx)) {
+        removedLines.push(l);
         return l;
       }
     });
